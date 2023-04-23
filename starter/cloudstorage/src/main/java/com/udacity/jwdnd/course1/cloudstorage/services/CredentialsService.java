@@ -38,15 +38,15 @@ public class CredentialsService {
         return credentials.stream().map(this::decryptPassword).collect(Collectors.toList());
     }
 
-    public void addCredential(Credentials credential, int userid) {
-        credentialsRepository.insertCredentials(encryptPassword(credential), userid);
+    public int addCredential(Credentials credential, int userid) {
+        return credentialsRepository.insertCredentials(encryptPassword(credential), userid);
     }
 
-    public void updateCredential(Credentials credential) {
-        credentialsRepository.updateCredentials(encryptPassword(credential));
+    public int updateCredential(Credentials credential) {
+       return credentialsRepository.updateCredentials(encryptPassword(credential));
     }
 
-    public void deleteCredential(int credentialid) {
-        credentialsRepository.deleteCredentials(credentialid);
+    public int deleteCredential(int credentialId) {
+        return credentialsRepository.deleteCredentials(credentialId);
     }
 }

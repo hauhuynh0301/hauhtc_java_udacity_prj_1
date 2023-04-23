@@ -137,7 +137,7 @@
                         <tr th:each="credential : ${credentials}">
                             <td>
                                 <button name="editCred" th:onclick="javascript:showCredentialModal([[${credential}]])" type="button" class="btn btn-success">Edit</button>
-                                <a name="delete" th:href="@{/credentials/delete(id=${credential.credentialid})}" class="btn btn-danger">Delete</a>
+                                <a name="delete" th:href="@{/credential/delete(credentialId=${credential.credentialid})}" class="btn btn-danger">Delete</a>
                             </td>
                             <th scope="row" th:text="${credential.url}"></th>
                             <td th:text="${credential.username}"></td>
@@ -157,7 +157,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form th:action="@{/credentials}" method="POST">
+                                <form th:action="@{/credential}" method="POST">
                                     <input type="hidden" name="credentialid" id="credential-id">
                                     <div class="form-group">
                                         <label for="note-title" class="col-form-label">URL</label>

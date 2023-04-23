@@ -16,22 +16,23 @@ public class CredentialsController {
     @Autowired
     private CredentialsService credentialsService;
 
-    @PostMapping("/credentials")
-    public String saveOrUpdateCredentials(Authentication authentication, Credentials credential) {
+    @PostMapping("/credential")
+    public String createOrUpdateCredential(Authentication authentication, Credentials credential) {
         SuperUser superUser = (SuperUser) authentication.getPrincipal();
-        if (credential.getCredentialid() > 0) {
-            credentialsService.updateCredential(credential);
-        } else {
-            credentialsService.addCredential(credential, superUser.getUserid());
+        int checkCreateOrUpdate = credential.getCredentialid() == 0 ? credentialsService.addCredential(credential, superUser.getUserid()) : credentialsService.updateCredential(credential);
+        if (checkCreateOrUpdate == 1) {
+            return "redirect:/result?success";
         }
-        return "redirect:/result?success";
+        return "redirect:/result?error";
     }
 
-    @GetMapping("/credentials/delete")
-    public String deleteNote(@RequestParam("id") int credentialid) {
-        if (credentialid > 0) {
-            credentialsService.deleteCredential(credentialid);
-            return "redirect:/result?success";
+    @GetMapping("/credential/delete")
+    public String deleteNote(@RequestParam("credentialId") int credentialId) {
+        if (credentialId > 0) {
+            int result = credentialsService.deleteCredential(credentialId);
+            if (result == 1){
+                return "redirect:/result?success";
+            }
         }
         return "redirect:/result?error";
     }
