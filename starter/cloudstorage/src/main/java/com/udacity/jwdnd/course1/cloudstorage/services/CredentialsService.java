@@ -35,7 +35,7 @@ public class CredentialsService {
         if (credentials == null) {
             throw new Exception("List credentials not found");
         }
-        return credentials.stream().map(this::decryptPassword).collect(Collectors.toList());
+        return credentials;
     }
 
     public int addCredential(Credentials credential, int userid) {

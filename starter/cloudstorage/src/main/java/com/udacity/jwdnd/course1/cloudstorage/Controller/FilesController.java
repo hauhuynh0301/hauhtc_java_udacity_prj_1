@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.Controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.entity.ResponseFile;
 import com.udacity.jwdnd.course1.cloudstorage.entity.SuperUser;
 import com.udacity.jwdnd.course1.cloudstorage.services.FilesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class FilesController {
@@ -18,9 +20,13 @@ public class FilesController {
     private FilesService filesService;
 
     @PostMapping("/files")
-    public String saveFile(Authentication authentication, MultipartFile fileUpload) throws IOException {
+    public String saveFile(Authentication authentication, MultipartFile fileUpload) throws Exception {
         SuperUser superUser = (SuperUser) authentication.getPrincipal();
         if (fileUpload.isEmpty()) {
+            return "redirect:/result?error";
+        }
+        List<ResponseFile> listFile = filesService.getAllFiles(superUser.getUserid());
+        if (listFile.size() > 0) {
             return "redirect:/result?error";
         }
         filesService.addFile(fileUpload, superUser.getUserid());
